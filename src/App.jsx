@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import DeviceList from './DeviceList';
 import Transformer from './Transformer';
 import Layout from './Layout';
+import Summary from './Summary'
 
 import { DEVICES, TRANSFORMER, INITCART } from './constants';
 
@@ -28,13 +29,13 @@ function App() {
 
     let currCount = Number(num) + carry;
     if (currCount !== 0 && currCount % 2 === 0) {
-      setCartList({...cartList, [currItem.name]: cartList[currItem.name] + Number(num),  "Transformer": cartList["Transformer"] + Number(currCount / 2)});
+      setCartList({ ...cartList, [currItem.name]: cartList[currItem.name] + Number(num), "Transformer": cartList["Transformer"] + Number(currCount / 2) });
       setTotalPrice(totalPrice + (currItem.cost * num) + (currCount / 2) * TRANSFORMER[0].cost);
       setTotalEnergy(totalEnergy + (currItem.energy * num) + (currCount / 2) * TRANSFORMER[0].energy);
       setCarry(0);
     }
     else {
-      setCartList({...cartList, [currItem.name]: cartList[currItem.name] + Number(num),  "Transformer": cartList["Transformer"] + Number(Math.floor(currCount / 2))});
+      setCartList({ ...cartList, [currItem.name]: cartList[currItem.name] + Number(num), "Transformer": cartList["Transformer"] + Number(Math.floor(currCount / 2)) });
       setTotalPrice(totalPrice + (currItem.cost * num) + (Math.floor(currCount / 2)) * TRANSFORMER[0].cost);
       setTotalEnergy(totalEnergy + (currItem.energy * num) + (Math.floor(currCount / 2)) * TRANSFORMER[0].energy);
       setCarry(1);
@@ -56,6 +57,12 @@ function App() {
             <Typography variant="h5" component="div" padding={1}>
               Total Energy:{totalEnergy.toLocaleString("en-US")}MWh
             </Typography>
+            <Grid item xs={12}>
+              <Typography fontSize={14} fontWeight={"bold"} component="div" paddingLeft={1}>
+                Summary:
+              </Typography>
+              <Summary items={cartList}></Summary>
+            </Grid>
             <Grid item xs={12}>
               <Layout items={cartList}></Layout>
             </Grid>
